@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Меликян Левон — Портфолио</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --b: 7px solid #0a0a0a;
+  --white: #f5f5f0;
+  --black: #0a0a0a;
+  --font: 'Inter', sans-serif;
+}
+
+body {
+  background: var(--white);
+  color: var(--black);
+  font-family: var(--font);
+  min-height: 100vh;
+}
+
+
+#grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  min-height: 100vh;
+}
+
+/* ── ЛОГО col1 row1 ── */
+.cell-logo {
+  grid-column: 1; grid-row: 1;
+  padding: 20px;
+  border-right: var(--b);
+  display: flex;
+  align-items: center;
+}
+.cell-logo img { width: 70px; height: auto; object-fit: contain; }
+
+/* ── ИМЯ col2-3 row1 ── */
+.cell-name {
+  grid-column: 2 / 4; grid-row: 1;
+  padding: 24px 28px;
+  border-bottom: var(--b);
+  display: flex;
+  align-items: flex-end;
+}
+.cell-name h1 {
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: clamp(24px, 2.8vw, 40px);
+  line-height: 1.1;
+}
+
+/* ── РАБОТЫ col1 row2 ── */
+/* выровнены по нижнему краю, под ними линия (border-bottom) */
+.cell-works {
+  grid-column: 1; grid-row: 2;
+  border-right: var(--b);
+  border-bottom: var(--b);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 24px;
+}
+
+.cell-photo {
+  grid-column: 2; grid-row: 2;
+  border-right: var(--b);
+  border-bottom: var(--b);
+  width: 100%;
+  overflow: hidden;
+}
+.cell-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── ОБО МНЕ col3 row2 ── */
+.cell-about {
+  grid-column: 3; grid-row: 2;
+  padding: 24px 28px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+/* ── пустая col1 row3 ── */
+.cell-left-bottom {
+  grid-column: 1; grid-row: 3;
+}
+
+/* ── КОНТАКТЫ col2 row3 ── */
+.cell-contacts {
+  grid-column: 2; grid-row: 3;
+  border-right: var(--b);
+  padding: 24px 28px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+/* ── пустая col3 row3 ── */
+.cell-right-bottom {
+  grid-column: 3; grid-row: 3;
+}
+
+/* ── ССЫЛКИ ── */
+.cell-works a,
+.cell-about a,
+.cell-contacts a {
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: clamp(24px, 2.8vw, 40px);
+  color: var(--black);
+  text-decoration: none;
+  line-height: 1.1;
+  transition: opacity 0.2s;
+}
+.cell-works a:hover,
+.cell-about a:hover,
+.cell-contacts a:hover { opacity: 0.4; }
+
+/* ── АДАПТИВ ── */
+@media (max-width: 700px) {
+  #grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto auto auto;
+  }
+  .cell-logo         { grid-column: 1;     grid-row: 1; }
+  .cell-name         { grid-column: 1 / 3; grid-row: 2; }
+  .cell-works        { grid-column: 1;     grid-row: 3; }
+  .cell-photo        { grid-column: 1 / 3; grid-row: 4; border-right: none; aspect-ratio: 1/1; }
+  .cell-about        { grid-column: 1 / 3; grid-row: 5; }
+  .cell-contacts     { grid-column: 1 / 3; grid-row: 6; border-right: none; }
+  .cell-left-bottom  { display: none; }
+  .cell-right-bottom { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div id="grid">
+
+  <div class="cell-logo">
+    <img src="img/Лого.png" alt="Логотип">
+  </div>
+
+  <div class="cell-name">
+    <h1>Меликян Левон</h1>
+  </div>
+
+  <div class="cell-works">
+    <a href="works.html">Работы</a>
+  </div>
+
+  <div class="cell-photo">
+    <img src="img/hero-img.jpg" alt="Фото">
+  </div>
+
+  <div class="cell-about">
+    <a href="about.html">Обо мне</a>
+  </div>
+
+  <div class="cell-left-bottom"></div>
+
+  <div class="cell-contacts">
+    <a href="contacts.html">Контакты</a>
+  </div>
+
+  <div class="cell-right-bottom"></div>
+
+</div>
+
+</body>
+</html>

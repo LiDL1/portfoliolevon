@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Обо мне — Меликян Левон</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --white: #f5f5f0;
+      --black: #0a0a0a;
+      --font: 'Inter', sans-serif;
+    }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: var(--font);
+      line-height: 1.4;
+    }
+
+    /* ========== НАВИГАЦИЯ (оригинальная) ========== */
+    nav {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 16px 24px;
+      border-bottom: 7px solid var(--black);
+      position: sticky;
+      top: 0;
+      background: var(--white);
+      z-index: 100;
+    }
+
+    .nav-title {
+      font-weight: 700;
+      font-size: 1.3rem;
+      justify-self: start;
+    }
+
+    .nav-logo {
+      justify-self: center;
+    }
+    .nav-logo img {
+      height: 48px;
+      width: auto;
+      display: block;
+    }
+
+    .nav-right {
+      justify-self: end;
+    }
+
+    /* Бургер-меню */
+    .burger {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .burger span {
+      width: 28px;
+      height: 3px;
+      background: var(--black);
+      display: block;
+      transition: 0.3s;
+    }
+    .burger.open span:nth-child(1) { transform: rotate(45deg) translateY(8px); }
+    .burger.open span:nth-child(2) { opacity: 0; }
+    .burger.open span:nth-child(3) { transform: rotate(-45deg) translateY(-8px); }
+
+    .burger-menu {
+      position: fixed;
+      inset: 0;
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 40px;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1);
+      z-index: 200;
+      gap: 8px;
+    }
+    .burger-menu.open { transform: translateX(0); }
+
+    .close-btn {
+      position: absolute;
+      top: 24px; right: 28px;
+      width: 36px; height: 36px;
+      background: none; border: none;
+      cursor: pointer;
+    }
+    .close-btn::before,
+    .close-btn::after {
+      content: '';
+      position: absolute;
+      width: 28px; height: 3px;
+      background: var(--black);
+      top: 50%; left: 50%;
+    }
+    .close-btn::before { transform: translate(-50%, -50%) rotate(45deg); }
+    .close-btn::after  { transform: translate(-50%, -50%) rotate(-45deg); }
+
+    .menu-item {
+      font-weight: 700;
+      font-size: clamp(2rem, 7vw, 3.5rem);
+      border-bottom: 2px solid rgba(0,0,0,0.15);
+      padding: 16px 0;
+      text-decoration: none;
+      color: var(--black);
+      transition: opacity 0.2s;
+    }
+    .menu-item:hover { opacity: 0.5; }
+
+    /* ========== ДЕКОРАТИВНЫЕ ПРЯМОУГОЛЬНИКИ ========== */
+    .decor-rect {
+      width: 100%;
+      height: 80px;
+      background: var(--black);
+      position: relative;
+      overflow: hidden;
+    }
+    .decor-rect::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        135deg,
+        transparent 0px,
+        transparent 14px,
+        rgba(255,255,245,0.18) 14px,
+        rgba(255,255,245,0.18) 18px
+      );
+      pointer-events: none;
+    }
+
+    /* ========== ТРЁХКОЛОНОЧНЫЙ БЛОК (flex) ========== */
+    .three-columns {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 60px 32px 80px;
+      gap: 40px;
+    }
+
+    /* Левая колонка: текст + прямоугольник под ним */
+    .col-left {
+      flex: 1.2;
+      min-width: 260px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .bio-text {
+      font-weight: 700;
+      font-size: clamp(1rem, 1.5vw, 1.3rem);
+      line-height: 1.55;
+      letter-spacing: -0.2px;
+      margin-bottom: 32px;
+    }
+    .left-decor {
+      width: 100%;
+      height: 80px;
+      background: var(--black);
+      position: relative;
+      overflow: hidden;
+    }
+    .left-decor::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        135deg,
+        transparent 0px,
+        transparent 14px,
+        rgba(255,255,245,0.18) 14px,
+        rgba(255,255,245,0.18) 18px
+      );
+    }
+
+    /* Центральная колонка + правая колонка (общий контейнер для верхнего прямоугольника) */
+    .right-group {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    /* Прямоугольник над фото и навыками */
+    .top-decor {
+      width: 100%;
+      height: 80px;
+      background: var(--black);
+      position: relative;
+      overflow: hidden;
+    }
+    .top-decor::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        135deg,
+        transparent 0px,
+        transparent 14px,
+        rgba(255,255,245,0.18) 14px,
+        rgba(255,255,245,0.18) 18px
+      );
+    }
+
+    /* Внутренняя сетка: фото + навыки */
+    .photo-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      align-items: flex-start;
+    }
+
+    /* Квадратное фото (по центру) */
+    .photo-col {
+      flex: 1;
+      min-width: 220px;
+    }
+    .square-photo {
+      aspect-ratio: 1 / 1;
+      width: 100%;
+      object-fit: cover;
+      display: block;
+      background: #e2e2d8;
+    }
+
+    /* Список навыков справа */
+    .skills-col {
+      flex: 1;
+      min-width: 220px;
+    }
+    .skills-col h3 {
+      font-weight: 800;
+      font-size: clamp(1.2rem, 2vw, 1.5rem);
+      margin-bottom: 28px;
+      letter-spacing: -0.3px;
+      border-left: 4px solid var(--black);
+      padding-left: 18px;
+    }
+    .skill-item {
+      font-weight: 700;
+      font-size: clamp(1rem, 1.4vw, 1.25rem);
+      padding: 14px 0 14px 18px;
+      border-bottom: 1px solid rgba(10, 10, 10, 0.1);
+    }
+    .skill-item:last-child {
+      border-bottom: none;
+    }
+    .skill-item::before {
+      content: "—";
+      margin-right: 12px;
+      opacity: 0.6;
+    }
+
+    /* ========== ФУТЕР С ФОНОВОЙ КАРТИНКОЙ ========== */
+    footer {
+      background: var(--black);
+      position: relative;
+      padding: 56px 40px 48px;
+      border-top: 7px solid var(--black);
+      overflow: hidden;
+      color: var(--white);
+    }
+    /* Фоновая текстура (изображение) */
+    footer::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url('img/footer.png');
+      background-repeat: repeat;
+      background-size: 42px;
+      opacity: 0.22;
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* Полупрозрачный слой для читаемости */
+    footer::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .footer-title {
+      font-weight: 800;
+      font-size: clamp(32px, 6vw, 54px);
+      line-height: 1.2;
+      margin-bottom: 44px;
+      position: relative;
+      z-index: 2;
+      letter-spacing: -0.01em;
+    }
+    .footer-icons {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    .footer-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      text-decoration: none;
+      color: var(--white);
+      transition: all 0.25s;
+    }
+    .footer-icon:hover {
+      background: rgba(255,255,245,0.25);
+      transform: translateY(-3px);
+    }
+    .footer-icon svg {
+      width: 26px;
+      height: 26px;
+      stroke: var(--white);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .footer-icon:first-child svg circle:last-of-type {
+      fill: var(--white);
+      stroke: none;
+    }
+
+    /* ========== АДАПТИВНОСТЬ ========== */
+    @media (max-width: 900px) {
+      .three-columns {
+        flex-direction: column;
+        padding: 40px 24px;
+        gap: 32px;
+      }
+      .col-left {
+        width: 100%;
+      }
+      .right-group {
+        width: 100%;
+      }
+      .photo-skills {
+        flex-direction: column;
+      }
+      .decor-rect, .left-decor, .top-decor {
+        height: 60px;
+      }
+      footer {
+        padding: 44px 28px 36px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- FULLSCREEN МЕНЮ -->
+<div class="burger-menu" id="burgerMenu">
+  <button class="close-btn" onclick="toggleBurger()" aria-label="Закрыть"></button>
+  <a class="menu-item" href="index.html">Главная</a>
+  <a class="menu-item" href="about.html">Обо мне</a>
+  <a class="menu-item" href="works.html">Работы</a>
+  <a class="menu-item" href="contacts.html">Контакты</a>
+</div>
+
+<!-- НАВИГАЦИЯ -->
+<nav>
+  <span class="nav-title">Обо мне</span>
+  <a href="index.html" class="nav-logo">
+    <img src="img/Лого.png" alt="Логотип">
+  </a>
+  <div class="nav-right">
+    <button class="burger" id="burgerBtn" onclick="toggleBurger()" aria-label="Меню">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ОСНОВНОЙ КОНТЕНТ -->
+<main>
+  <div class="three-columns">
+    <!-- Левая колонка: текст + прямоугольник под ним -->
+    <div class="col-left">
+      <div class="bio-text">
+        Меня зовут Меликян Левон,<br>
+        я студент 4 курса, направление<br>
+        прикладная информатика<br>
+        в дизайне. Санкт-Петербургский<br>
+        государственный университет<br>
+        промышленных технологий<br>
+        и дизайна, институт<br>
+        информационных систем<br>
+        и автоматизации.
+      </div>
+      <div class="left-decor"></div>
+    </div>
+
+    <!-- Правая группа: верхний прямоугольник + блок (фото + навыки) -->
+    <div class="right-group">
+      <!-- Прямоугольник над фото и текстом -->
+      <div class="top-decor"></div>
+
+      <!-- Фото (по центру) и навыки (справа) -->
+      <div class="photo-skills">
+        <div class="photo-col">
+          <img class="square-photo" src="img/hero-img.jpg" alt="Фото Меликян Левон">
+        </div>
+        <div class="skills-col">
+          <h3>Владею:</h3>
+          <div class="skill-item">Figma</div>
+          <div class="skill-item">Visual Studio Code</div>
+          <div class="skill-item">Adobe Illustrator</div>
+          <div class="skill-item">Adobe Photoshop</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ФУТЕР С ФОНОВОЙ КАРТИНКОЙ -->
+<footer>
+  <p class="footer-title">Всегда готов<br>к сотрудничеству!</p>
+  <div class="footer-icons">
+    <a href="#" class="footer-icon" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" width="26" height="26">
+        <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" fill="none"/>
+        <circle cx="12" cy="12" r="5" stroke="currentColor" fill="none"/>
+        <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
+    <a href="#" class="footer-icon" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24">
+        <rect x="2" y="2" width="20" height="20" rx="3" stroke="currentColor" fill="none"/>
+        <line x1="7" y1="10" x2="7" y2="17" stroke="currentColor"/>
+        <line x1="7" y1="7" x2="7" y2="7.5" stroke="currentColor" stroke-width="2.5"/>
+        <path d="M11 10v7M11 13a3 3 0 0 1 6 0v4" stroke="currentColor" fill="none"/>
+      </svg>
+    </a>
+    <a href="#" class="footer-icon" aria-label="Email">
+      <svg viewBox="0 0 24 24">
+        <rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" fill="none"/>
+        <polyline points="2,4 12,13 22,4" stroke="currentColor" fill="none"/>
+      </svg>
+    </a>
+  </div>
+</footer>
+
+<script>
+  let isOpen = false;
+  function toggleBurger() {
+    isOpen = !isOpen;
+    document.getElementById('burgerMenu').classList.toggle('open', isOpen);
+    document.getElementById('burgerBtn').classList.toggle('open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  }
+  document.querySelectorAll('.menu-item').forEach(link => {
+    link.addEventListener('click', () => { if (isOpen) toggleBurger(); });
+  });
+</script>
+</body>
+</html>
